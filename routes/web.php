@@ -33,3 +33,10 @@ Route::get('/user/delete', function() {
     return view('user.delete');
 });
 
+Route::get('/genders', function() {
+    return view('gender.index');
+});
+
+Route::get('/gender/create', function() {
+    return view('gender.create');
+});
