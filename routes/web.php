@@ -15,3 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/genders', [GenderController::class, 'index']);
+Route::get('/gender/create', [GenderController::class, 'create']);
+Route::get('/gender/view/{id}', [GenderController::class, 'show']);
+Route::get('/gender/edit/{id}', [GenderController::class, 'edit']);
+
+Route::post('/gender/store', [GenderController::class, 'store']);
+Route::put('/gender/update/{gender}', [GenderController::class, 'update']);

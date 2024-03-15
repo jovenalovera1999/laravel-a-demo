@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gender;
 use Illuminate\Http\Request;
 
 class GenderController extends Controller
@@ -17,27 +18,42 @@ class GenderController extends Controller
     // destroy
 
     public function index() {
-        return view('gender.index');
+        $genders = Gender::all(); // SELECT * FROM genders;
+        return view('gender.index', compact('genders'));
     }
 
-    public function show() {
-
+    public function show($id) {
+        $gender = Gender::find($id); // SELECT * FROM genders WHERE gender_id = $id;
+        return view('gender.show', compact('gender'));
     }
 
     public function create() {
-
+        return view('gender.create');
     }
 
-    public function store() {
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'gender' => ['required']
+        ]);
 
+        Gender::create($validated); // INSERT INTO genders(gender) VALUES($validated->gender);
+
+        return redirect('/genders')->with('message_success', 'Gender successfully saved!');
     }
 
-    public function edit() {
-
+    public function edit($id) {
+        $gender = Gender::find($id); // SELECT * FROM genders WHERE gender_id = $id;
+        return view('gender.edit', compact('gender'));
     }
 
-    public function update() {
+    public function update(Request $request, Gender $gender) {
+        $validated = $request->validate([
+            'gender' => ['required']
+        ]);
 
+        $gender->update($validated);
+
+        return redirect('/genders')->with('message_success', 'Gender successfully updated!');
     }
 
     public function delete() {
