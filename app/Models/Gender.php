@@ -9,5 +9,9 @@ class Gender extends Model
 {
     use HasFactory;
 
-    
+    protected $table = 'genders';
+    protected $primaryKey = 'gender_id';
+    protected $fillable = [
+        'gender'
+    ];
 }

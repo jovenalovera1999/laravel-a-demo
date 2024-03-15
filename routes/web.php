@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GenderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,30 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/users', function() {
-    return view('user.index');
-});
-
-Route::get('/user/create', function() {
-    return view('user.create');
-});
-
-Route::get('/user/edit', function() {
-    return view('user.edit');
-});
-
-Route::get('/user/delete', function() {
-    return view('user.delete');
-});
-
-Route::get('/genders', function() {
-    return view('gender.index');
-});
-
-Route::get('/gender/create', function() {
-    return view('gender.create');
-});
+Route::get('/genders', [GenderController::class, 'index']);
