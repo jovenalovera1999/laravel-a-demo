@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('first_name', 55);
             $table->string('middle_name', 55)->nullable();
             $table->string('last_name', 55);
-            $table->string('suffix_name', 55);
+            $table->string('suffix_name', 55)->nullable();
             $table->date('birth_date');
             $table->unsignedBigInteger('gender_id');
             $table->string('address', 55);
             $table->string('contact_number', 55);
-            $table->string('email_address', 55);
-            $table->string('username', 55);
+            $table->string('email_address', 55)->nullable();
+            $table->string('username', 55)->unique();
             $table->string('password', 255);
             $table->timestamps();
 

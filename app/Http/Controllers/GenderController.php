@@ -56,11 +56,13 @@ class GenderController extends Controller
         return redirect('/genders')->with('message_success', 'Gender successfully updated!');
     }
 
-    public function delete() {
-
+    public function delete($id) {
+        $gender = Gender::find($id);
+        return view('gender.delete', compact('gender'));
     }
 
-    public function destroy() {
-
+    public function destroy(Request $request, Gender $gender) {
+        $gender->delete($request);
+        return redirect('/genders')->with('message_success', 'Gender successfully deleted!');
     }
 }

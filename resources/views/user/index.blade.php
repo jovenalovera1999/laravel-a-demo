@@ -16,27 +16,36 @@
         <!-- Responsive and hover table -->
         <div class="table-responsive">
             <table class="table table-hover">
+                @include('include.messages')
                 <thead>
                     <tr>
                         <th>First Name</th>
                         <th>Middle Name</th>
                         <th>Last Name</th>
-                        <th>Age</th>
                         <th>Birth Date</th>
                         <th>Date Created</th>
                         <th>Date Updated</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Juan</td>
-                        <td>Santos</td>
-                        <td>Dela Cruz</td>
-                        <td>43</td>
-                        <td>05/23/1983</td>
-                        <td>03/03/2024</td>
-                        <td>03/03/2024</td>
-                    </tr>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->first_name }}</td>
+                            <td>{{ $user->middle_name }}</td>
+                            <td>{{ $user->last_name }}</td>
+                            <td>{{ date('m/d/Y', strtotime($user->birth_date)) }}</td>
+                            <td>{{ date('m/d/Y h:i A', strtotime($user->created_at)) }}</td>
+                            <td>{{ date('m/d/Y h:i A', strtotime($user->updated_at)) }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="/user/show/{{ $user->user_id }}" class="btn btn-outline-primary">View</a>
+                                    <a href="/user/edit/{{ $user->user_id }}" class="btn btn-outline-warning">Edit</a>
+                                    <a href="/user/delete/{{ $user->user_id }}" class="btn btn-outline-danger">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

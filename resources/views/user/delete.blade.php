@@ -1,23 +1,28 @@
 <!-- Main HTML -->
 @extends('layout.main')
 
+<!-- HTML content -->
+@section('content')
+
 <!-- Tab title -->
 <title>Delete User | Demo App</title>
 
 <!-- Sidebar -->
 @include('include.sidebar')
 
-<!-- HTML content -->
-@section('content')
-
 <!-- Card -->
 <div class="card mt-3">
     <div class="card-body">
         <h5 class="card-title">Delete User</h5>
-        <p class="card-text">Are you sure do you want to delete this user named "Name of user"?</p>
+        @if ($user->middle_name)
+            <p class="card-text">Are you sure do you want to delete this user named "{{ $user->first_name . ' ' . $user->middle_name[0] . '. ' . $user->last_name . ' ' . $user->suffix_name }}"?</p>
+            
+        @else
+            <p class="card-text">Are you sure do you want to delete this user named "{{ $user->first_name . ' ' . $user->last_name . ' ' . $user->suffix_name }}"?</p>
+        @endif
         <!-- Buttons -->
         <!-- Form for delete button -->
-        <form action="#" method="post">
+        <form action="/user/destroy/{{ $user->user_id }}" method="post">
             <!-- DELETE method and CSRF -->
             @method('DELETE')
             @csrf

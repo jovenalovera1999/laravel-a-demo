@@ -13,7 +13,9 @@
         <nav id="navbar" class="nav-menu navbar">
             <ul>
                 <li><a href="/users"><span>List of Users</span></a></li>
-                <li><a href="/user/create"><span>Add user</span></a></li>
+                <li><a href="/genders"><span>List of Genders</span></a></li>
+                <li><a href="/user/create"><span>Add User</span></a></li>
+                <li><a href="/gender/create"><span>Add Gender</span></a></li>
             </ul>
         </nav>
     </div>
