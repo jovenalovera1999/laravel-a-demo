@@ -17,6 +17,7 @@
         <div class="table-responsive">
             <table class="table table-hover">
                 @include('include.messages')
+                {{ $users->links() }}
                 <thead>
                     <tr>
                         <th>First Name</th>

@@ -16,6 +16,16 @@
                 <li><a href="/genders"><span>List of Genders</span></a></li>
                 <li><a href="/user/create"><span>Add User</span></a></li>
                 <li><a href="/gender/create"><span>Add Gender</span></a></li>
+
+
+                <li><a href="/logout"><span>Logout</span></a></li>
+
+
+
+                <form action="/process/logout" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
             </ul>
         </nav>
     </div>

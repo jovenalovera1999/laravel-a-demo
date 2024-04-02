@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Gender;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
     public function index() {
-        $users = User::all();
+        $users = User::orderBy('first_name', 'asc')
+            ->paginate(10);
+
         return view('user.index', compact('users'));
     }
 
@@ -88,5 +91,43 @@ class UserController extends Controller
     public function destroy(Request $request, User $user) {
         $user->delete($request);
         return redirect('/users')->with('message_success', 'User successfully deleted.');
+    }
+
+    public function login() {
+        return view('login.login');
+    }
+
+    public function processLogin(Request $request) {
+        $validated = $request->validate([
+            'username' => ['required', 'max:12'],
+            'password' => ['required', 'max:15']
+        ]);
+
+        $user = User::where('username', $validated['username'])
+            ->first();
+
+        if($user && Hash::check($validated['password'], $user->password) && auth()->attempt($validated)) {
+            auth()->login($user);
+            $request->session()->regenerate();
+            return redirect('/users');
+        }
+    }
+
+    public function processLogout(Request $request) {
+        auth()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+    public function anotherProcessLogout(Request $request) {
+        auth()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }
