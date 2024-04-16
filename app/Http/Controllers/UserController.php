@@ -11,8 +11,22 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     public function index() {
-        $users = User::orderBy('first_name', 'asc')
-            ->paginate(10);
+        $users = User::orderBy('first_name', 'asc');
+
+        if(request()->has('search')) {
+            $searchTerm = request()->get('search');
+
+            if($searchTerm) {
+                $users = $users->where(function($query) use ($searchTerm) {
+                    $query->where('users.first_name', 'like', "%$searchTerm%")
+                        ->orWhere('users.middle_name', 'like', "%$searchTerm%")
+                        ->orWhere('users.last_name', 'like', "%$searchTerm%");
+                });
+            }
+        }
+
+        $users = $users->paginate(10)
+            ->appends(['search' => request()->get('search')]);
 
         return view('user.index', compact('users'));
     }
@@ -20,6 +34,7 @@ class UserController extends Controller
     public function show($id) {
         $user = User::join('genders as g', 'g.gender_id', '=', 'users.gender_id')
             ->find($id);
+            
         return view('user.show', compact('user'));
     }
 

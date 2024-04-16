@@ -17,6 +17,12 @@
         <div class="table-responsive">
             <table class="table table-hover">
                 @include('include.messages')
+                <div class="mb-3 col-sm-3 ms-1">
+                    <form action="#" method="get">
+                        <label for="search">Search</label>
+                        <input type="text" class="form-control" name="search" id="search" />
+                    </form>
+                </div>
                 {{ $users->links() }}
                 <thead>
                     <tr>
