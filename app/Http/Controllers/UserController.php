@@ -6,6 +6,7 @@ use App\Models\Gender;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -86,10 +87,27 @@ class UserController extends Controller
             'address' => ['required', 'max:55'],
             'contact_number' => ['required', 'max:55'],
             'email_address' => ['nullable', 'max:55'],
-            'username' => ['required', Rule::unique('users')->ignore($user)]
+            'username' => ['required', Rule::unique('users')->ignore($user)],
+            'user_image' => ['nullable', 'mimes:jpeg,png,bmp,biff', 'max:4096']
         ], [
             'gender_id.required' => 'The gender field is required.'
         ]);
+
+        if($request->hasFile('user_image')) {
+            $filenameWithExtension = $request->file('user_image');
+
+            $filename = pathinfo($filenameWithExtension, PATHINFO_FILENAME);
+
+            $extension = $request->file('user_image')->getClientOriginalExtension();
+
+            $filenameToStore = $filename . '_' . time() . '.' . $extension;
+
+            $request->file('user_image')->storeAs('public/img/user', $filenameToStore);
+
+            $validated['user_image'] = $filenameToStore;
+        }
+
+        // return dd($request);
 
         $user->update($validated);
 
@@ -104,6 +122,10 @@ class UserController extends Controller
     }
 
     public function destroy(Request $request, User $user) {
+        if($user->user_image && Storage::exists('public/img/user/' . $user->user_image)) {
+            Storage::delete('public/img/user/' . $user->user_image);
+        }
+
         $user->delete($request);
         return redirect('/users')->with('message_success', 'User successfully deleted.');
     }

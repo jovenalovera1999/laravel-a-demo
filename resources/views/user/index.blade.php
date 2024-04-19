@@ -26,6 +26,7 @@
                 {{ $users->links() }}
                 <thead>
                     <tr>
+                        <th>Profile Picture</th>
                         <th>First Name</th>
                         <th>Middle Name</th>
                         <th>Last Name</th>
@@ -38,6 +39,7 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
+                            <td><img src="{{ ($user->user_image) ? asset('storage/img/user/' . $user->user_image) : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}" class="img-fluid" width="70" height="70" /></td>
                             <td>{{ $user->first_name }}</td>
                             <td>{{ $user->middle_name }}</td>
                             <td>{{ $user->last_name }}</td>

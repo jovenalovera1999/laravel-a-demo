@@ -15,7 +15,7 @@
     <div class="card-body">
         <h5 class="card-title">Edit User</h5>
         <!-- Form POST method -->
-        <form action="/user/update/{{ $user->user_id }}" method="post">
+        <form action="/user/update/{{ $user->user_id }}" method="post" enctype="multipart/form-data">
             <!-- PUT method and CSRF -->
             @method('PUT')
             @csrf
@@ -98,6 +98,11 @@
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $user->username) }}">
                     @error('username') <p class="text-danger">{{ $message }}</p> @enderror
+                </div>
+                <div class="mb-3 col-sm-4">
+                    <label for="user_image">User Image</label>
+                    <input type="file" class="form-control" id="user_image" name="user_image" />
+                    @error('user_image') <p class="text-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
             <!-- Update button -->
